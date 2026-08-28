@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# 가상환경
+.venv/
+venv/
+env/
+
+# 체크포인트 / 로그 (용량 큼, 서버에서 별도 관리)
+*.pth
+*.pt
+logs/
+eval/
+
+# 데이터 (대용량, 별도 전송)
+datasets/
+samples/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
