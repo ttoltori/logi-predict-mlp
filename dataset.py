@@ -102,6 +102,19 @@ class NiaDataset(Dataset):
                 if file.endswith('.jpg'):
                     self.img_list.append(os.path.join(subdir, file))
 
+        # kan_code_list에 없는 KAN_code(파일명 앞 4자리)의 이미지는 제외.
+        # prepare_data.py가 리스트 외 코드까지 복사해온 경우가 있어
+        # 런타임 ValueError를 방지하기 위해 여기서 필터링한다.
+        n_before = len(self.img_list)
+        self.img_list = [
+            p for p in self.img_list
+            if os.path.basename(p)[:4] in self.kan_code_list
+        ]
+        n_dropped = n_before - len(self.img_list)
+        if n_dropped > 0:
+            print(f'[NiaDataset] kan_code_list에 없는 이미지 {n_dropped}장 제외 '
+                  f'({"train" if train else "tta"})')
+
     def __len__(self):
         """데이터셋의 전체 이미지 수를 반환한다."""
         return len(self.img_list)

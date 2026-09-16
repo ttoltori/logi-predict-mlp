@@ -1,0 +1,70 @@
+nohup: ignoring input
+[NiaDataset] kan_code_list에 없는 이미지 183장 제외 (train)
+[NiaDataset] kan_code_list에 없는 이미지 53장 제외 (tta)
+2026-09-17 08:27:15,890 - INFO - Using CUDA (1 GPU(s))
+2026-09-17 08:27:15,891 - INFO - --batch_size 256
+2026-09-17 08:27:15,891 - INFO - --cuda True
+2026-09-17 08:27:15,892 - INFO - --data NIA29_input
+2026-09-17 08:27:15,892 - INFO - --data_dir datasets
+2026-09-17 08:27:15,892 - INFO - --device cuda
+2026-09-17 08:27:15,892 - INFO - --evaluate False
+2026-09-17 08:27:15,892 - INFO - --fold 1
+2026-09-17 08:27:15,893 - INFO - --image_only False
+2026-09-17 08:27:15,893 - INFO - --metadata geo_temporal
+2026-09-17 08:27:15,894 - INFO - --mlp_cin 4
+2026-09-17 08:27:15,894 - INFO - --mlp_d 256
+2026-09-17 08:27:15,894 - INFO - --mlp_h 64
+2026-09-17 08:27:15,895 - INFO - --mlp_n 2
+2026-09-17 08:27:15,896 - INFO - --mlp_type c
+2026-09-17 08:27:15,896 - INFO - --model_file sk2res2net_dynamic_mlp
+2026-09-17 08:27:15,897 - INFO - --model_name sk2res2net101
+2026-09-17 08:27:15,897 - INFO - --name sk2_dynamic_mlp
+2026-09-17 08:27:15,897 - INFO - --nprocs 1
+2026-09-17 08:27:15,898 - INFO - --num_classes 107
+2026-09-17 08:27:15,898 - INFO - --num_workers 8
+2026-09-17 08:27:15,899 - INFO - --path_log ./logs/NIA29_input/sk2_dynamic_mlp
+2026-09-17 08:27:15,899 - INFO - --pretrained True
+2026-09-17 08:27:15,900 - INFO - --random_seed 37
+2026-09-17 08:27:15,901 - INFO - --resume 
+2026-09-17 08:27:15,902 - INFO - --save_dir ./logs
+2026-09-17 08:27:15,902 - INFO - --start_lr 0.02
+2026-09-17 08:27:15,903 - INFO - --stop_epoch 100
+2026-09-17 08:27:15,903 - INFO - --tencrop False
+2026-09-17 08:27:15,904 - INFO - --use_amp True
+2026-09-17 08:27:15,904 - INFO - --warmup 2
+2026-09-17 08:27:16,394 - INFO - type: c, cin: 4, d: 256, h: 64, N: 2
+2026-09-17 08:27:16,602 - INFO - Successfully load checkpoints/sk2res2net101_epoch_300.pth !
+/home/work/aihub/logi-predict/logi-predict-mlp/train.py:236: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler(enabled=args.use_amp)
+/home/work/aihub/logi-predict/logi-predict-mlp/train.py:263: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=args.use_amp):
+2026-09-17 08:27:52,695 - INFO - e: 1/100,0/151	0.03 mb/s	eta: 6 days, 6:28:14	time: 35.876	data_time: 22.318	lr: 0.0000	acc1: 0.7812	acc5: 2.7808	loss: 4.9750	dp/tot: 0.6221
+2026-09-17 08:28:23,071 - INFO - e: 1/100,20/151	2.14 mb/s	eta: 13:12:53	time: 0.467	data_time: 0.000	lr: 0.0013	acc1: 15.2344	acc5: 32.4800	loss: 3.8006
+2026-09-17 08:29:27,005 - INFO - e: 1/100,40/151	0.05 mb/s	eta: 13:16:57	time: 19.597	data_time: 19.095	lr: 0.0026	acc1: 14.8438	acc5: 38.3508	loss: 3.7535	dp/tot: 0.9744
+2026-09-17 08:30:11,036 - INFO - e: 1/100,60/151	2.14 mb/s	eta: 11:55:52	time: 0.467	data_time: 0.000	lr: 0.0040	acc1: 20.2900	acc5: 49.1164	loss: 3.4977
+2026-09-17 08:31:12,675 - INFO - e: 1/100,80/151	0.06 mb/s	eta: 12:08:52	time: 17.693	data_time: 17.207	lr: 0.0053	acc1: 24.1264	acc5: 62.6345	loss: 3.2508	dp/tot: 0.9725
+2026-09-17 08:31:55,235 - INFO - e: 1/100,100/151	2.14 mb/s	eta: 11:29:06	time: 0.467	data_time: 0.000	lr: 0.0066	acc1: 36.8087	acc5: 68.0163	loss: 2.9475
+2026-09-17 08:32:52,449 - INFO - e: 1/100,120/151	0.06 mb/s	eta: 11:32:29	time: 15.416	data_time: 14.932	lr: 0.0079	acc1: 37.8858	acc5: 78.5070	loss: 2.6661	dp/tot: 0.9687
+2026-09-17 08:33:37,665 - INFO - e: 1/100,140/151	2.14 mb/s	eta: 11:13:25	time: 0.467	data_time: 0.000	lr: 0.0093	acc1: 23.0588	acc5: 55.1578	loss: 3.3862
+2026-09-17 08:34:05,371 - INFO - eval epoch 1
+2026-09-17 08:34:35,316 - INFO - iter 0/38
+2026-09-17 08:35:16,616 - INFO - iter 20/38
+2026-09-17 08:35:55,118 - INFO - val e: 1	acc1: 26.8406	acc5: 59.8989	loss: 3.2233	best_acc1: 26.8406	best_acc5: 59.8989	Copypaste: 26.8406, 59.8989
+2026-09-17 08:35:55,118 - INFO - Exp path: ./logs/NIA29_input/sk2_dynamic_mlp
+2026-09-17 08:36:03,773 - INFO - e: 2/100,0/151	0.12 mb/s	eta: 11:22:27	time: 8.649	data_time: 8.141	lr: 0.0100	acc1: 37.1071	acc5: 75.7774	loss: 2.7483	dp/tot: 0.9413
+2026-09-17 08:36:21,069 - INFO - e: 2/100,20/151	2.14 mb/s	eta: 10:27:19	time: 0.468	data_time: 0.000	lr: 0.0113	acc1: 53.9888	acc5: 78.5043	loss: 2.3933
+2026-09-17 08:36:42,452 - INFO - e: 2/100,40/151	0.22 mb/s	eta: 9:48:53	time: 4.613	data_time: 4.118	lr: 0.0126	acc1: 48.7127	acc5: 73.3523	loss: 2.6645	dp/tot: 0.8927
+2026-09-17 08:37:00,027 - INFO - e: 2/100,60/151	2.14 mb/s	eta: 9:13:11	time: 0.468	data_time: 0.000	lr: 0.0140	acc1: 52.1943	acc5: 82.0469	loss: 2.5456
+2026-09-17 08:37:21,526 - INFO - e: 2/100,80/151	0.24 mb/s	eta: 8:47:47	time: 4.154	data_time: 3.663	lr: 0.0153	acc1: 45.8273	acc5: 72.4839	loss: 2.7313	dp/tot: 0.8817
+2026-09-17 08:37:39,093 - INFO - e: 2/100,100/151	2.14 mb/s	eta: 8:22:29	time: 0.468	data_time: 0.000	lr: 0.0166	acc1: 54.7272	acc5: 81.9952	loss: 2.3220
+2026-09-17 08:38:00,689 - INFO - e: 2/100,120/151	0.23 mb/s	eta: 8:04:32	time: 4.273	data_time: 3.780	lr: 0.0179	acc1: 59.1817	acc5: 86.4978	loss: 2.1934	dp/tot: 0.8845
+2026-09-17 08:38:18,779 - INFO - e: 2/100,140/151	2.14 mb/s	eta: 7:46:02	time: 0.467	data_time: 0.000	lr: 0.0193	acc1: 63.6308	acc5: 87.3539	loss: 2.0299
+2026-09-17 08:38:28,474 - INFO - eval epoch 2
+2026-09-17 08:38:38,077 - INFO - iter 0/38
+2026-09-17 08:38:55,592 - INFO - iter 20/38
+2026-09-17 08:39:12,531 - INFO - val e: 2	acc1: 42.2355	acc5: 74.4690	loss: 2.7439	best_acc1: 42.2355	best_acc5: 74.4690	Copypaste: 42.2355, 74.4690
+2026-09-17 08:39:12,532 - INFO - Exp path: ./logs/NIA29_input/sk2_dynamic_mlp
+2026-09-17 08:39:21,155 - INFO - e: 3/100,0/151	0.12 mb/s	eta: 7:42:45	time: 8.616	data_time: 8.126	lr: 0.0200	acc1: 56.4846	acc5: 81.2391	loss: 2.3662	dp/tot: 0.9431
+2026-09-17 08:39:39,011 - INFO - e: 3/100,20/151	2.14 mb/s	eta: 7:27:07	time: 0.468	data_time: 0.000	lr: 0.0200	acc1: 33.9480	acc5: 62.1954	loss: 3.2648
+2026-09-17 08:40:01,015 - INFO - e: 3/100,40/151	0.21 mb/s	eta: 7:16:15	time: 4.728	data_time: 4.230	lr: 0.0200	acc1: 64.0046	acc5: 84.2479	loss: 2.1257	dp/tot: 0.8946
+2026-09-17 08:40:18,654 - INFO - e: 3/100,60/151	2.13 mb/s	eta: 7:03:36	time: 0.469	data_time: 0.000	lr: 0.0200	acc1: 67.9489	acc5: 86.1806	loss: 2.0553

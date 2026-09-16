@@ -165,6 +165,18 @@ def scan_products(src: Path, category: str = CATEGORY_DEFAULT):
             'annotations': annotations,
         })
 
+    # KAN_CODE_LIST(107개 클래스)에 없는 상품은 제외.
+    # dataset.py가 리스트 외 코드를 만나면 ValueError로 학습이 중단되므로
+    # 여기서 미리 걸러낸다.
+    n_all = len(products)
+    skipped_codes = sorted({p['kan_code'] for p in products
+                            if p['kan_code'] not in KAN_CODE_LIST})
+    products = [p for p in products if p['kan_code'] in KAN_CODE_LIST]
+    skipped = n_all - len(products)
+    if skipped:
+        print(f'[필터] KAN_CODE_LIST에 없는 상품 {skipped}개 제외 '
+              f'(코드: {", ".join(skipped_codes)})')
+
     return products
 
 

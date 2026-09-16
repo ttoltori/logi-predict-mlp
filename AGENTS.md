@@ -101,6 +101,7 @@ DynamicMLP/
 - `dataset.py` 상단의 `kan_code_list` (107개 항목)가 클래스 순서를 정의.
 - 라벨 = `kan_code_list.index(KAN_code[:4])` (0-based).
 - `eval.py` 상단의 `number_labels`는 동일한 107개 리스트.
+- **리스트 외 KAN_code 자동 제외**: `dataset.py` `__init__`에서 파일명 앞 4자리가 `kan_code_list`에 없는 이미지를 필터링하고 개수를 출력한다(2026-09 추가). `prepare_data.py`의 `scan_products`도 `KAN_CODE_LIST`로 상품을 필터링한다. 현재 데이터셋에는 리스트 외 코드 5개(0611, 1025, 1114, 1115, 1116 — train 183장/tta 53장)가 존재하며 자동 제외된다.
 - `args.num_classes = 107` (`dataset.py`의 `load_train_dataset`/`load_val_dataset`에서 `args.data == 'NIA29_input'` 일 때 하드코딩).
 
 ### 3.4 메타데이터 처리 (dataset.py `__getitem__`)
@@ -136,7 +137,7 @@ fused → fc → logits(num_classes)
 ```
 
 - `resnet_dynamic_mlp.py`: torchvision ResNet 구조에 `loc_net`, `loc_att` 추가. `resnet50`/`resnet101` 제공. `--pretrained` 시 ImageNet 가중치 로드(fc 제외).
-- `sk2res2net_dynamic_mlp.py`: SK2Res2Net(Res2Net + SK attention) 백본에 동일 결합. `sk2res2net101` 제공. **`--pretrained` 시 경로가 `/workspace/PRETRAINS/checkpoint_inat21-mini_90epoch_sk2-101_dynamic-mlp-c_84.694_top1_acc.pth` 로 하드코딩** → 로컬에서는 수정 필요.
+- `sk2res2net_dynamic_mlp.py`: SK2Res2Net(Res2Net + SK attention) 백본에 동일 결합. `sk2res2net101` 제공. **`--pretrained` 시 `checkpoints/sk2res2net101_epoch_300.pth` (ImageNet 사전학습)를 로드** — checkpoints/README.md 링크에서 다운로드 필요. `strict=False`로 로드되므로 백본 가중치만 적용되고 `loc_net`/`loc_att`/`fc`는 랜덤 초기화됨.
 
 ### 4.3 image-only 모드
 
@@ -304,7 +305,7 @@ Windows 환경에서 실행 중이므로 `num_workers`를 0~4 정도로 낮추�
 3. **클래스 리스트**: `dataset.py`의 `kan_code_list`와 `eval.py`의 `number_labels`를 새 클래스 목록으로 교체. 두 리스트가 동일해야 함.
 4. **num_classes**: `dataset.py`의 `load_train_dataset`/`load_val_dataset`에서 `args.num_classes` 값을 클래스 수에 맞게 수정 (또는 `args.data` 분기 추가).
 5. **`--data` 이름**: 새 데이터 이름을 쓰려면 `dataset.py`의 `if args.data == 'NIA29_input'` 분기를 추가하거나 교체.
-6. **사전학습 경로**: `sk2res2net_dynamic_mlp.py` 1070줄의 하드코딩된 `model_path`를 로컬 체크포인트 경로로 수정, 또는 `checkpoints/sk2res2net101_epoch_300.pth` 사용.
+6. **사전학습 경로**: `sk2res2net_dynamic_mlp.py`의 `model_path`는 `checkpoints/sk2res2net101_epoch_300.pth`로 설정됨(2026-09 수정). 해당 파일이 없으면 `checkpoints/README.md` 링크에서 다운로드.
 7. **메타데이터 정규화 로직**: `dataset.py` 106~115줄의 중복 정규화 버그 확인. 기존 체크포인트를 이어 쓸 경우 수정 금지(재학습 필요).
 8. **mlp_cin**: 메타데이터 차원이 바뀌면 `args.mlp_cin`과 `encode_loc_time` 출력 차원을 일치시킬 것. 현재는 입력 2차원 → sin/cos → 4차원.
 9. **Windows 설정**: `--num_workers` 축소, 경로에 한글/공백 주의.
@@ -315,7 +316,7 @@ Windows 환경에서 실행 중이므로 `num_workers`를 0~4 정도로 낮추�
 ## 10. 알려진 이슈 / 코드 특이사항
 
 - `dataset.py`의 width/height 정규화가 두 번 적용됨(106~111줄과 113~115줄). 의도된 것인지 버그인지 불명. 기존 체크포인트와 호환성 주의.
-- `sk2res2net_dynamic_mlp.py`의 사전학습 경로가 Linux 절대경로(`/workspace/PRETRAINS/...`)로 하드코딩 → Windows/다른 환경에서는 반드시 수정.
+- `sk2res2net_dynamic_mlp.py`의 사전학습 경로가 `checkpoints/sk2res2net101_epoch_300.pth`로 수정됨(2026-09). 파일이 없으면 `checkpoints/README.md`에서 다운로드. 다른 체크포인트를 쓰려면 `model_path` 수정 필요.
 - `dataset_oryginal.py`는 원본 참고용이며 실행에 사용되지 않음.
 - `eval.py`는 한 파일에 두 버전이 있고 두 번째는 문자열 주석처리됨.
 - `train.py`의 `validate`와 `eval.py`의 `validate`가 다름(후자가 상세).
@@ -337,16 +338,17 @@ Windows 환경에서 실행 중이므로 `num_workers`를 0~4 정도로 낮추�
   - `validate()`(상세): 94~233줄
   - `main()`: 235~361줄
 - `prepare_data.py`
-  - `--src` 인자(세미콜론 다중 지정): 336~338줄
-  - `scan_products`: 97~168줄
-  - `split_products`: 199~241줄
-  - `copy_files`: 244~292줄
-  - `main()` 다중 소스 스캔 루프: 354~389줄
+  - `KAN_CODE_LIST` 정의: 65~77줄
+  - `scan_products` (KAN_CODE_LIST 필터 포함): 97~182줄
+  - `split_products`: 211~253줄
+  - `copy_files`: 256~304줄
+  - `main()` / `--src` 인자(세미콜론 다중 지정): 345줄~
 - `dataset.py`
-  - `kan_code_list`: 32~42줄
-  - `NiaDataset.__getitem__`: 62~129줄
-  - `encode_loc_time`: 132~136줄
-  - `load_train_dataset`/`load_val_dataset`: 139~216줄
+  - `kan_code_list`: 72~84줄
+  - 리스트 외 코드 필터링: 105~116줄
+  - `NiaDataset.__getitem__`: 122~204줄
+  - `encode_loc_time`: 207~221줄
+  - `load_train_dataset`/`load_val_dataset`: 223~281줄
 - `utils.py`
   - `mixup`: 27~45줄
   - `LabelSmoothingLoss`: 48~62줄

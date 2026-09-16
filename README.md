@@ -51,7 +51,7 @@ checkpoints/sk2res2net101_epoch_300.pth
 ```
 다운로드 링크: `checkpoints/README.md` 참조.
 
-> **주의**: `models/sk2res2net_dynamic_mlp.py`의 사전학습 경로가 `/workspace/PRETRAINS/...`로 하드코딩 → 로컬 경로로 수정 필요.
+> **참고**: `models/sk2res2net_dynamic_mlp.py`의 `--pretrained` 로드 경로는 `checkpoints/sk2res2net101_epoch_300.pth`로 설정되어 있음(2026-09 수정). `strict=False`로 로드되므로 백본 가중치만 적용된다.
 
 ---
 

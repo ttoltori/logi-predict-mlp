@@ -1119,7 +1119,7 @@ def sk2res2net101(logger, args):
         # 주의: 이 경로는 Linux 서버 기준으로 하드코딩되어 있다.
         # Windows 또는 다른 환경에서는 아래 경로를 실제 체크포인트 위치로 수정해야 한다.
         # 예: 'checkpoints/sk2res2net101_epoch_300.pth'
-        model_path = '/workspace/PRETRAINS/checkpoint_inat21-mini_90epoch_sk2-101_dynamic-mlp-c_84.694_top1_acc.pth'
+        model_path = 'checkpoints/sk2res2net101_epoch_300.pth'
         model.load_state_dict(torch.load(model_path), strict=False)
         logger.info('Successfully load %s !' % model_path)
     return model
